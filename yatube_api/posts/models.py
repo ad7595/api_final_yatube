@@ -24,7 +24,7 @@ class Post(models.Model):
         User, verbose_name='Автор', on_delete=models.CASCADE,
         related_name='posts')
     image = models.ImageField(
-        verbose_name='Картинка', upload_to='posts/', null=True, blank=True)
+        verbose_name='Картинка', upload_to='posts/', blank=True)
     group = models.ForeignKey(Group,
                               verbose_name='Группа',
                               on_delete=models.SET_NULL,
@@ -36,7 +36,7 @@ class Post(models.Model):
         ordering = ('pub_date',)
 
     def __str__(self):
-        return self.text[:15]
+        return self.text
 
 
 class Comment(models.Model):
@@ -66,6 +66,13 @@ class Follow(models.Model):
     following = models.ForeignKey(
         User, verbose_name='Подписка', on_delete=models.CASCADE,
         related_name='following')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'], name='unique following'
+            )
+        ]
 
     def __str__(self):
         return self.user.username

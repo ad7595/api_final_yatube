@@ -2,8 +2,15 @@
 Описание
 API для Yatub представляет собой проект социальной сети в которой реализованы следующие возможности, публиковать записи, комментировать записи, а так же подписываться или отписываться от авторов.
 
-### Как запустить проект:
+Автор: Алексей Дегунов
 
+### Технологии
+- Python 3.9
+- Django
+- Django REST Framework
+- Django REST Framework SimpleJWT
+
+### Как запустить проект:
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
@@ -34,9 +41,17 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Выполнить миграции:
+Создать и выполнить миграции:
 
 ```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+Создать суперпользователя и снова выполнить миграции:
+
+```
+python manage.py createsuperuser
 python manage.py migrate
 ```
 
@@ -44,4 +59,52 @@ python manage.py migrate
 
 ```
 python manage.py runserver
+```
+
+### Документация
+
+Документация доступна по адресу:
+
+```
+http://127.0.0.1:8000/redoc
+```
+
+
+### Примеры запросов
+
+Получение публикаций:
+>**GET** http://127.0.0.1:8000/api/v1/posts/
+
+Создание публикации:
+>**POST** http://127.0.0.1:8000/api/v1/posts/
+```
+{
+  "text": "string",
+  ...
+}
+```
+
+Получение списка групп:
+>**GET** http://127.0.0.1:8000/api/v1/groups/
+
+Просмотр комментариев к публикации:
+>**GET** http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
+
+Создание комментариев к публикации:
+>**POST** http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
+```
+{
+  "text": "string"
+}
+```
+
+Посмотреть всех подписчиков пользователя:
+>**GET** http://127.0.0.1:8000/api/v1/follow/
+
+Подписаться на автора:
+>**POST** http://127.0.0.1:8000/api/v1/follow/
+```
+{
+  "following": "string"(username)
+}
 ```
